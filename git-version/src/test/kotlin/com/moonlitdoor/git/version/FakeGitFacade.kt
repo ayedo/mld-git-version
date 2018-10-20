@@ -3,7 +3,7 @@ package com.moonlitdoor.git.version
 import java.io.File
 
 open class FakeGitFacade : GitFacade() {
-    override fun runCommand(projectDir: File, vararg command: String): String {
+    override fun runCommandOsIndependent(projectDir: File, vararg command: String): String {
         val v = command.joinToString("")
         return when (v) {
             "gitrev-list--countHEAD" -> "20"

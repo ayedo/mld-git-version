@@ -22,12 +22,12 @@ class GitVersionPlugin : Plugin<Project> {
     }
 
     private fun getGitVersion(projectDir: File): String {
-        val output = git.runCommand(projectDir, "git", "describe", "--tags")
+        val output = git.runCommandOsIndependent(projectDir, "git", "describe", "--tags")
         return getGitStatus(projectDir, output)
     }
 
     private fun getGitStatus(projectDir: File, version: String): String {
-        val output = git.runCommand(projectDir, "git", "status", "--porcelain")
+        val output = git.runCommandOsIndependent(projectDir, "git", "status", "--porcelain")
         return if (output.isEmpty()) {
             version
         } else {
@@ -41,7 +41,7 @@ class GitVersionPlugin : Plugin<Project> {
     }
 
     private fun getGitCommitCount(projectDir: File): Long {
-        val output = git.runCommand(projectDir, "git", "rev-list", "--count", "HEAD")
+        val output = git.runCommandOsIndependent(projectDir, "git", "rev-list", "--count", "HEAD")
         return if (output.isNotEmpty()) {
             output.toLong()
         } else {
@@ -50,7 +50,7 @@ class GitVersionPlugin : Plugin<Project> {
     }
 
     private fun getGitTagCount(projectDir: File): Long {
-        val output = git.runCommand(projectDir, "git", "tag")
+        val output = git.runCommandOsIndependent(projectDir, "git", "tag")
         return if (output.isNotEmpty()) {
             output.split("\n").size.toLong()
         } else {
@@ -59,7 +59,7 @@ class GitVersionPlugin : Plugin<Project> {
     }
 
     private fun getGitBranchName(projectDir: File): String {
-        return git.runCommand(projectDir, "git", "rev-parse", "--abbrev-ref", "HEAD")
+        return git.runCommandOsIndependent(projectDir, "git", "rev-parse", "--abbrev-ref", "HEAD")
     }
 
     companion object {
